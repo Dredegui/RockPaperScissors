@@ -70,34 +70,61 @@ function game(className) {
 	const anc = document.createElement("h3");
 	anc.textContent = round(playerSelection, computerSelection);;
 	anc.style.textAlign = "center";
-	(par.parentNode).appendChild(anc);
+	(par.parentNode).insertBefore(anc, document.querySelector(".score"));
 	if (anc.textContent.includes("win")) {
 		return 1;
-	} else {
+	} else if (anc.textContent.includes("lose")){
 		return -1;
+	} else {
+		return 0;
 	}
 }
 
-function listenButtons() {
+function listenButtons(playerSc, compSc) {
 	const buttons = document.querySelectorAll("button");
-	let score = 0;
+	let temp;
 	buttons.forEach((button) => {
 		button.addEventListener('click', () => {
-			score += game(button.className);
+			temp = game(button.className);
+			if (temp > 0) {
+				playerSc += temp;
+			} else {
+				compSc += temp;
+			}
 			let prmpt = document.querySelector(".prompt-container");
 			const plagin = document.createElement("button");
+			let res = "";
 			plagin.textContent = "Play Again";
+			if (playerSc === 5) {
+				res = "You won the game!";
+				playerSc = 0;
+				compSc = 0;
+			} else if (compSc === -5) {
+				res = "You lost the game!";
+				playerSc = 0;
+				compSc = 0;
+			} else {
+				plagin.textContent = "Next Round";
+			}
 			prmpt.appendChild(plagin);
+			const score = document.querySelector(".score");
+			if (res != "") {
+				score.textContent=res;
+			} else {
+				score.textContent=`Score: ${playerSc} - ${(-1*compSc)}`;
+			}
 			plagin.addEventListener("click", () => {
 				document.body.innerHTML = originalDOM;
-				listenButtons();
+				listenButtons(playerSc, compSc);
 			});
 		});
 	});
+	const score = document.querySelector(".score");
+	score.textContent=`Score: ${playerSc} - ${(-1*compSc)}`;
 	return;	
 }
 
 let originalDOM = document.body.innerHTML;
 console.log("wtf");
-listenButtons();
+listenButtons(0, 0);
 // game();
