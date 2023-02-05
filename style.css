@@ -29,13 +29,25 @@ h1 {
 }
 
 .choice {
-	/* 
+	all: unset;
+	padding: 2px;
 	border: 2px solid rgba(0, 0, 0, 0.541);
-	border-radius: 2px; */
+	background-color: rgb(231, 231, 231);
+	border-radius: 3px;
+	overflow: hidden;
+	position: relative;
+}
+
+.spec,
+.choice {
 	width: 100px;
 	height: 100px;
 	margin-right: 20px;
 	margin-left: 20px;
+}
+
+button:hover {
+	background-color: rgb(241, 241, 241);
 }
 
 img {
